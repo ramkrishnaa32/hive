@@ -64,6 +64,3 @@ INSERT INTO orders_external VALUES (111101, "2023-07-25 00:00:00:0", 4568, "COMP
 SELECT * FROM orders_external WHERE order_id = 111101;
 
 DROP TABLE orders_external;
-
-
-

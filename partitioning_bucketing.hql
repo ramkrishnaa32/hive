@@ -2,10 +2,7 @@
 1. Table structure level optimization
     - Partitioning
     - Bucketing
-2. Query level optimization
-    - join optimization
-    - filter push down
-
+    
 Partitioning:
     Partitioning divides the table into smaller parts based on the partition column.
     This is useful when we have a large table and we want to query only a subset of the data.
