@@ -47,8 +47,6 @@ Table Properties:
 2. File format must be ORC.
 3. LOAD DATA LOCAL INPATH is not supported.
 4. Once table is created as transactional, it cannot be converted to non-transactional.
-
-TBLPROPERTIES ('transactional'='true');
 "
 
 -- Create table
@@ -88,4 +86,30 @@ SHOW transactions;
 -- Automatic compaction is used to optimize the performance of transactional tables.
 -- It is used to merge small files into larger files to improve query performance.
 -- It is used to reduce the number of files in a directory to improve query performance.
+
+-- insert only transactional table
+-- It supports only insert operations and all kind of file formats.
+CREATE TABLE IF NOT EXISTS orders_transactional_insert (
+    order_id INT,
+    order_date STRING,
+    customer_id INT,
+    order_status STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS ORC
+TBLPROPERTIES (
+'transactional'='true', 
+'transactional_properties'='insert_only');
+
+DESCRIBE FORMATTED orders_transactional_insert;
+
+INSERT INTO orders_transactional_insert VALUES (201, "2023-07-25 00:00:00:0", 4568, "COMPLETE");
+INSERT INTO orders_transactional_insert VALUES (202, "2023-07-26 00:00:00:0", 4569, "CLOSED");
+
+SELECT * FROM orders_transactional_insert LIMIT 10;
+
+UPDATE orders_transactional_insert
+SET order_status = 'PENDING'
+WHERE order_id = 201;
 
